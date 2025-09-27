@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Google Summer of Code - Part 2 · Sai&#39;s Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sai Wong">
+<meta name="description" content="Continuing my GSoC project: building SBOL-to-ML functionality">
+<meta name="keywords" content="blog, personal, hugo">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Google Summer of Code - Part 2">
+  <meta name="twitter:description" content="Continuing my GSoC project: building SBOL-to-ML functionality">
+
+<meta property="og:url" content="https://cywlol.github.io/posts/gsoc/part2/">
+  <meta property="og:site_name" content="Sai&#39;s Blog">
+  <meta property="og:title" content="Google Summer of Code - Part 2">
+  <meta property="og:description" content="Continuing my GSoC project: building SBOL-to-ML functionality">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-26T15:18:35-07:00">
+    <meta property="article:modified_time" content="2025-09-26T15:18:35-07:00">
+    <meta property="article:tag" content="Gsoc">
+    <meta property="article:tag" content="Blog">
+
+
+
+
+<link rel="canonical" href="https://cywlol.github.io/posts/gsoc/part2/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.022594d625780e2edf64581b893d32cb35c11de5d88953ea4ad3c2e45451e214.css" integrity="sha256-AiWU1iV4Di7fZFgbiT0yyzXBHeXYiVPqStPC5FRR4hQ=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://cywlol.github.io/">
+      Sai&#39;s Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Posts</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://cywlol.github.io/posts/gsoc/part2/">
+              Google Summer of Code - Part 2
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2025-09-26T15:18:35-07:00">
+                2025-09-26
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              2-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/projects/">Projects</a></div>
+
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/gsoc/">Gsoc</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/blog/">Blog</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <h2 id="task-2--building-sbol-to-ml-functionality">
+  Task 2 — Building SBOL-to-ML Functionality
+  <a class="heading-link" href="#task-2--building-sbol-to-ml-functionality">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Now that we had SBOL data from <strong>Task 1</strong>, the next step was to build functionality in our package that could transform SBOL into a <strong>tabular dataset</strong> (similar to a pandas DataFrame).<br>
+This dataset would then be compatible with standard ML models such as <strong>RandomForest</strong>, <strong>LinearRegression</strong>, and <strong>LogisticRegression</strong> from scikit-learn.</p>
+<hr>
+<h3 id="initial-approach-pysbol2-extraction">
+  Initial Approach: pySBOL2 Extraction
+  <a class="heading-link" href="#initial-approach-pysbol2-extraction">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>My first attempt used <strong>pySBOL2</strong> directly to:</p>
+<ul>
+<li>Pull SBOL data</li>
+<li>Extract the individual components I had built in Task 1</li>
+<li>Collect information such as:
+<ul>
+<li>DNA sequence</li>
+<li>Start and end positions</li>
+<li>Target value (label)</li>
+</ul>
+</li>
+</ul>
+<p>Problem: This approach was too <strong>dataset-specific</strong> and difficult to generalize.</p>
+<hr>
+<h3 id="switching-to-sparql-queries">
+  Switching to SPARQL Queries
+  <a class="heading-link" href="#switching-to-sparql-queries">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Since SBOL is inherently a <strong>triple-store data format</strong>, the better option was to use <strong>SPARQL queries</strong>.<br>
+SPARQL is ideal for extracting arbitrary information from SBOL.</p>
+<p>For most practical synthetic biology ML models:</p>
+<ul>
+<li>Features come from the <strong>DNA sequence</strong></li>
+<li>The <strong>target label</strong> can be any SBOL URI the user specifies</li>
+</ul>
+<p>Our package function now:</p>
+<ol>
+<li>Runs a SPARQL query to extract the DNA sequence</li>
+<li>Pulls the target label</li>
+<li>Builds a <strong>tabular dataset</strong> with those two columns</li>
+</ol>
+<hr>
+<h3 id="preprocessing-dna-sequences">
+  Preprocessing DNA Sequences
+  <a class="heading-link" href="#preprocessing-dna-sequences">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Even with a table, the DNA sequence is still a <strong>string of characters</strong>, not a vector.<br>
+The next step was to add preprocessing functions to convert DNA into ML-friendly features.</p>
+<p>We implemented several methods inspired by the research paper:</p>
+<ul>
+<li><strong>k-mer features</strong> → Count every k-length substring occurrence</li>
+<li><strong>One-hot encoding</strong> → Convert DNA bases into binary vectors
+<ul>
+<li>A = [0,0,0,1]</li>
+<li>G = [0,0,1,0]</li>
+<li>T = [0,1,0,0]</li>
+<li>C = [1,0,0,0]</li>
+</ul>
+</li>
+<li><strong>GC-score</strong> → Fraction of G and C bases in the sequence (scalar feature)</li>
+<li><strong>PWM scores</strong> → Not generalized in our package (requires pre-established genome matrix, so we skipped it)</li>
+</ul>
+<p>The original paper used <strong>R scripts</strong> for preprocessing.<br>
+Instead, we created our own <strong>Python functions</strong> that replicate the same behavior.</p>
+<hr>
+<h3 id="final-pipeline-flow">
+  Final Pipeline Flow
+  <a class="heading-link" href="#final-pipeline-flow">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>With these functions, we completed the <strong>SBOL → ML preprocessing pipeline</strong>.<br>
+The typical user workflow became:</p>
+<ol>
+<li>Pull data from SynBioHub using <strong>pySBOL2</strong></li>
+<li>Run our function to generate a <strong>tabular dataset</strong></li>
+<li>Apply one or more <strong>preprocessing functions</strong> (k-mer, one-hot, GC, etc.)</li>
+<li>Get a <strong>vectorized dataset</strong> ready for ML training</li>
+</ol>
+<p>⚡ Note: All DNA sequences are <strong>padded or trimmed to the same length</strong>, since ML models require fixed-size inputs.</p>
+<hr>
+<h2 id="task-3-to-be-continued">
+  Task 3 (to be continued…)
+  <a class="heading-link" href="#task-3-to-be-continued">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Stay tuned for the next post, where I’ll describe how we extended the package further in Task 3!</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2025
+     Sai Wong 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Google Summer of Code - Part 3 · Sai&#39;s Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sai Wong">
+<meta name="description" content="Continuing my GSoC project: building SBOL-to-ML functionality">
+<meta name="keywords" content="blog, personal, hugo">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Google Summer of Code - Part 3">
+  <meta name="twitter:description" content="Continuing my GSoC project: building SBOL-to-ML functionality">
+
+<meta property="og:url" content="https://cywlol.github.io/posts/gsoc/part3/">
+  <meta property="og:site_name" content="Sai&#39;s Blog">
+  <meta property="og:title" content="Google Summer of Code - Part 3">
+  <meta property="og:description" content="Continuing my GSoC project: building SBOL-to-ML functionality">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-26T15:18:35-07:00">
+    <meta property="article:modified_time" content="2025-09-26T15:18:35-07:00">
+    <meta property="article:tag" content="Gsoc">
+    <meta property="article:tag" content="Blog">
+
+
+
+
+<link rel="canonical" href="https://cywlol.github.io/posts/gsoc/part3/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.022594d625780e2edf64581b893d32cb35c11de5d88953ea4ad3c2e45451e214.css" integrity="sha256-AiWU1iV4Di7fZFgbiT0yyzXBHeXYiVPqStPC5FRR4hQ=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://cywlol.github.io/">
+      Sai&#39;s Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Posts</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://cywlol.github.io/posts/gsoc/part3/">
+              Google Summer of Code - Part 3
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2025-09-26T15:18:35-07:00">
+                2025-09-26
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/projects/">Projects</a></div>
+
+          <div class="tags">
+  <i class="fa-solid fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/gsoc/">Gsoc</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/blog/">Blog</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <h2 id="task-3">
+  Task 3
+  <a class="heading-link" href="#task-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>With the core package features finished, we were able to replicate the results of the paper with similar metrics. However, because those metrics were low and did not show high predictive power, we wanted to try out graph neural networks for this purpose. We believed that graph neural networks would be perfect for our data because SBOL is inherently a graph. Typical synthetic biology machine learning models use only the DNA sequence to make its predictions; however, this approach lacks the experimental metadata that can be imperative for prediction. Because SBOL captures this metadata, encoding this information in a graph neural network would provide more context to the model, and theoretically allowing for higher accuracies.</p>
+<hr>
+<h3 id="autordf2gml-for-graph-conversion">
+  AutoRDF2GML for Graph Conversion
+  <a class="heading-link" href="#autordf2gml-for-graph-conversion">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>To begin, we first used a tool called <strong>AutoRDF2GML</strong>, a tool designed for converting an RDF file to a format that was suitable for graph neural network training. The main thing that we had to resolve to use this tool was the config file; we needed to input our nodes, relationships, models, which had to be customized to the data. If we wanted this workflow to be reproducible to other forms of data, this config would need to be auto-generated.</p>
+<p>Later on, I wrote a script that automates the generation of this config by once again using SPARQL queries to fetch all the major nodes (<strong>ComponentDefinition, ModuleDefinition, SequenceAnnotation</strong>) that we cared about, and fetching the URIs of those connecting relationships because they were needed for the config file. Once the config parsed, the tool would run and generate several csv files containing the edge mappings and node features.</p>
+<hr>
+<h3 id="building-graph-data-for-pytorch-geometric">
+  Building Graph Data for PyTorch Geometric
+  <a class="heading-link" href="#building-graph-data-for-pytorch-geometric">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>I wrote some pandas scripts that would take those mappings and features to create a <strong>PyTorch Geometric HeteroData object</strong>, which is what is taken in as training data for graph neural networks made in PyTorch. Once I had created these scripts, I essentially had a pipeline that went from SBOL files on my computer, processed through the AutoRDF2GML tool, and turned into multiple HeteroData objects.</p>
+<p>To start, I created a straightforward GNN through <strong>PyTorch Geometric</strong>, which took in heterogenous graphs and applied different convolutions for several stages of message passing. Our example was fitted towards a graph level regression problem, as we wanted to predict the RNA expression level of the entire SBOL graph. Once I configured the PyTorch setup and processed all 17K files through AutoRDF2GML (which took days of running), the GNN was ready to be trained.</p>
+<hr>
+<h3 id="training-challenges">
+  Training Challenges
+  <a class="heading-link" href="#training-challenges">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>After running the GNN for several epochs, we noticed that the validation and training loss was very sporadic, jumping from very high values to very low values. I then discovered that the reason for this was that our target label, the RNA expression level, was very skewed and had outliers that were much larger than the rest of the distribution. To account for this, I decided to apply a log transformation and retrained the model. Seeing lower and more consistent values for the training and validation loss, there was an improvement to the model.</p>
+<p>However, I noticed that the training and validation loss remained constant throughout each epoch of the model, meaning that the model was barely learning anything from the data. After further experimentation and reflecting, I realized that one important reason that the model wasn’t learning anything lied inherently in the data. Our data, because it belonged to a single experiment where only the DNA sequence would change, was encoded in essentially the same graph structure with only a differing DNA sequence. There was not enough variation in our data, which means the model would not be able to generalize or learn anything new if there was such little variation in the data.</p>
+<hr>
+<h3 id="reflections">
+  Reflections
+  <a class="heading-link" href="#reflections">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Moreover, I realized that in converting the SBOL files using AutoRDF2GML, the tool would use sci-bert to vectorize some of the RDF features; however, since our features included the DNA sequence (which was the main, changing component of our graphs), scibert would encode the DNA sequence as a “scientific term,” even though a DNA sequence would just be a jumble of random characters to the model.</p>
+<p>We concluded that the GNN was still a very useful application, but we needed to work on getting a better DNA encoding and also more varied data.</p>
+<hr>
+<h2 id="task-4">
+  Task 4
+  <a class="heading-link" href="#task-4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>In reflection to the previous task, we wanted to test out other models that would be good for encoding DNA properties and generating good results. We decided to try out <strong>DNABert</strong>, a transformer-based model, because it would be the most complex and was essentially trained on a very large dataset of DNA and would presumably generate a meaningful encoding for our DNA.</p>
+<hr>
+<h3 id="dnabert-setup-and-fine-tuning">
+  DNABert Setup and Fine-Tuning
+  <a class="heading-link" href="#dnabert-setup-and-fine-tuning">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>To start, I began getting familiar with the <strong>HuggingFace transformers</strong> library in Python for fine-tuning a transformer. I did a lot of research to see how fine-tuning is normally done and looked at several code snippets for fine tuning DNABert. Adapting this information to my dataset, I wanted to fine-tune DNABert for a regression task, so I added a regression head on top of the DNABert layer. Moreover, I learned about <strong>LoRA fine tuning</strong>, which utilizes low-rank transformation in order to decrease the amount of weights I would need to fine-tune so that it wouldn’t be too computationally intensive.</p>
+<p>In creating this workflow, I had a notebook that would take in our existing 17K rows of data, tokenize it using the DNABert tokenizer, split into training, test, and evaluation datasets, then utilize the Trainer class in Huggingface to fine-tune the model with some initial hyperparameters and using LoRA. Eventually, the model compiled and was able to be fine-tuned, but since there wasn’t much data, hyperparameter optimization, and I couldn’t run this fine-tuning on my local computer, our results / evaluation of this method of using DNABert could not be finalized.</p>
+<hr>
+<h3 id="hpc-experiments-and-hyperparameter-tuning">
+  HPC Experiments and Hyperparameter Tuning
+  <a class="heading-link" href="#hpc-experiments-and-hyperparameter-tuning">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Later we also were able to get access to a <strong>HPC</strong>, so the problems I had with running these training/preprocessing methods on my local computer would be bypassed. In order to prepare my data to be run on the HPC, I created several scripts for hyperparameter tuning. We also decided to switch to a similar dataset from the same research paper that had a total of 600K entries because of this new access to the HPC.</p>
+<p>I created one Python script that could be used for hyperparameter tuning a <strong>scikit-learn</strong> model (RandomForest, LogisticRegression), so that we could test our preprocessing package and aim to get better results. The other notebook I had essentially took the transformer fine-tuning and added an additional hyperparameter tuning section, which utilized <strong>Optuna</strong> hyperparameter optimization to find its parameters.</p>
+<hr>
+<h3 id="conclusion">
+  Conclusion
+  <a class="heading-link" href="#conclusion">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>This was the last task I completed, so we were not able to test and get results for this.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2025
+     Sai Wong 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

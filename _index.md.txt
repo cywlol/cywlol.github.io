@@ -1,0 +1,7 @@
++++
+title = "Welcome"
++++
+
+Hi, I’m **Your Name** 👋  
+I’m interested in X, Y, Z.  
+This is my personal site where I’ll share posts and projects
