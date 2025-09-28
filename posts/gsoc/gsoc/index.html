@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <title>
   Google Summer of Code - Part 1 · Sai&#39;s Blog
 </title>
@@ -22,7 +22,7 @@
   <meta name="twitter:title" content="Google Summer of Code - Part 1">
   <meta name="twitter:description" content="First test post on my new Hugo blog">
 
-<meta property="og:url" content="https://cywlol.github.io/posts/gsoc/gsoc/">
+<meta property="og:url" content="http://localhost:1313/posts/gsoc/gsoc/">
   <meta property="og:site_name" content="Sai&#39;s Blog">
   <meta property="og:title" content="Google Summer of Code - Part 1">
   <meta property="og:description" content="First test post on my new Hugo blog">
@@ -37,7 +37,7 @@
 
 
 
-<link rel="canonical" href="https://cywlol.github.io/posts/gsoc/gsoc/">
+<link rel="canonical" href="http://localhost:1313/posts/gsoc/gsoc/">
 
 
 <link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -47,7 +47,7 @@
 
   
   
-  <link rel="stylesheet" href="/css/coder.min.022594d625780e2edf64581b893d32cb35c11de5d88953ea4ad3c2e45451e214.css" integrity="sha256-AiWU1iV4Di7fZFgbiT0yyzXBHeXYiVPqStPC5FRR4hQ=" crossorigin="anonymous" media="screen" />
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
 
 
 
@@ -97,7 +97,7 @@
     <nav class="navigation">
   <section class="container">
     
-    <a class="navigation-title" href="https://cywlol.github.io/">
+    <a class="navigation-title" href="http://localhost:1313/">
       Sai&#39;s Blog
     </a>
     
@@ -128,7 +128,7 @@
       <header>
         <div class="post-title">
           <h1 class="title">
-            <a class="title-link" href="https://cywlol.github.io/posts/gsoc/gsoc/">
+            <a class="title-link" href="http://localhost:1313/posts/gsoc/gsoc/">
               Google Summer of Code - Part 1
             </a>
           </h1>
@@ -143,7 +143,7 @@
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              3-minute read
+              4-minute read
             </span>
           </div>
           
@@ -166,92 +166,56 @@
 
       <div class="post-content">
         
-        <h2 id="sub-posts">
-  Sub-posts
-  <a class="heading-link" href="#sub-posts">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<ul>
-<li><a href="/posts/gsoc/part2" >Part 1</a> — <em>Introduction to SBOL</em></li>
-</ul>
-<hr>
-<h2 id="introduction-to-sbol">
+        <h2 id="introduction-to-sbol">
   Introduction to SBOL
   <a class="heading-link" href="#introduction-to-sbol">
     <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
     <span class="sr-only">Link to heading</span>
   </a>
 </h2>
-<p>My prior experience with the SBOL data format was visiting the <strong>SynBioHub</strong> website.<br>
-I understood it as a valuable location to hold biological data, but I didn’t imagine I would start working with this data format until the program began.</p>
-<p>The aim of this project was to create a pipeline that could transform data represented in <strong>SBOL format</strong> into preprocessed data formats (vectors) usable for <strong>machine learning training</strong>.</p>
-<ul>
-<li><strong>SynBioHub</strong> is the largest database of standardized biological designs encoded in SBOL.</li>
-<li>It is a great place to obtain large amounts of training data for ML models.</li>
-<li>Classical ML models can be trained on:
+<p>My prior experience with the SBOL data format was visiting the SynBioHub website previously, as I understood it as a valuable location to hold biological data. I didn’t imagine that I would start working with this data format until the program started.</p>
+<p>The aim of this project was to create a pipeline that would go from data represented in SBOL format to preprocessed data formats (vectors) that could be used for machine learning training. SynBioHub is the database with the largest amount of standardized biological designs encoded in SBOL and therefore is a great place to obtain a large amount of training data for ML models.</p>
+<p>Classical ML models can be trained on experimental values such as:</p>
 <ul>
 <li>RNA expression values</li>
 <li>Encoded DNA sequences</li>
 </ul>
-</li>
-<li>These can be represented in SBOL and uploaded to SynBioHub.</li>
-</ul>
-<p>However, because SBOL is encoded in a <strong>triple-store XML format</strong>, these values cannot be directly passed into ML models (which expect numeric features).<br>
-Thus, researchers face the challenge of <strong>encoding SBOL data into ML-friendly formats</strong>, which is infeasible without ML experience.</p>
-<p>As a result, SynBioHub currently lacks <strong>accessible, preprocessed datasets</strong>, limiting the ability of researchers to efficiently develop ML models.</p>
+<p>These can be easily encoded in SBOL and uploaded to SynBioHub. However, because the data in SynBioHub is encoded in a triple-store XML format, these data values cannot be directly passed into ML models, which expect numeric features. Thus, if biological researchers wish to use the data in SynBioHub, they face the task of having to encode this data, which becomes infeasible without some experience in ML. As a result, SynBioHub currently lacks accessible, preprocessed datasets, which limits researchers’ ability to efficiently develop models trained on the data from SynBioHub.</p>
 <hr>
-<h2 id="task-one--encoding-data-into-sbol">
-  Task One — Encoding Data into SBOL
-  <a class="heading-link" href="#task-one--encoding-data-into-sbol">
+<h2 id="task-one">
+  Task One
+  <a class="heading-link" href="#task-one">
     <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
     <span class="sr-only">Link to heading</span>
   </a>
 </h2>
-<p>My first task was to encode data from a <strong>research paper</strong> into SBOL format.</p>
+<p>My first task was to encode data from a <!-- raw HTML omitted --><a href="https://elifesciences.org/reviewed-preprints/92558"  class="external-link" target="_blank" rel="noopener">research paper</a><!-- raw HTML omitted --> into SBOL format. The context behind this paper is that these researchers wanted to explore how they can discover promoter sequences within the <em>E. coli</em> genome. During that process, they performed a lot of experiments and uploaded that data to GitHub.</p>
+<p>With this data, they trained multiple machine learning models, attempting to:</p>
 <ul>
-<li>The researchers were studying <strong>promoter sequences in the <em>E. coli</em> genome</strong>.</li>
-<li>They uploaded their experimental data to GitHub.</li>
-<li>They trained ML models to:
-<ul>
-<li>Predict whether a promoter sequence was active/inactive</li>
-<li>Predict the expression level of the promoter</li>
+<li>Predict whether a given promoter sequence was inactive or active</li>
+<li>Directly predict the expression level of the promoter</li>
 </ul>
-</li>
-</ul>
-<p>Since our project was about building an <strong>SBOL-to-ML pipeline</strong>, I used their dataset to test our package.</p>
-<h3 id="tools-and-references">
-  Tools and References
-  <a class="heading-link" href="#tools-and-references">
+<p>Because we wanted to create an SBOL to machine learning training pipeline, we decided to use their data to test out our package. Thus, my goal was to first encode this data from the paper into SBOL.</p>
+<hr>
+<h2 id="tools-and-documentation">
+  Tools and Documentation
+  <a class="heading-link" href="#tools-and-documentation">
     <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
     <span class="sr-only">Link to heading</span>
   </a>
-</h3>
-<ul>
-<li><strong>SBOL specification</strong> → describes structure, logic, and reasoning of SBOL</li>
-<li><strong>pySBOL2 (Python package)</strong> → provides functions to generate SBOL files easily</li>
-</ul>
-<h3 id="process">
-  Process
-  <a class="heading-link" href="#process">
+</h2>
+<p>Because of my unfamiliarity with the SBOL data format, I read through a lot of documentation such as the SBOL specification, which describes the underlying structure, logic, and reasoning behind the format, and pySBOL2, which is a Python package that provides neat functions that abstract a lot of the SBOL logic, allowing the user to create SBOL files easily.</p>
+<p>I spent a lot of time in this task rebuilding the SBOL format. The data from the paper could be encoded in many different ways, so we had to discuss and determine what was the best representation. Because I was working with rows of experimental data, my code for this section was essentially a single loop that created all the components and relationships needed to encode the data, which we iteratively improved over time.</p>
+<p>At first, I was creating one SBOL file that encoded 17,000 rows of data, but later on we realized that it would make more sense to encode each row as an SBOL file and store the aggregate in a collection on SynBioHub.</p>
+<hr>
+<h2 id="challenges">
+  Challenges
+  <a class="heading-link" href="#challenges">
     <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
     <span class="sr-only">Link to heading</span>
   </a>
-</h3>
-<ol>
-<li>Read through the SBOL documentation.</li>
-<li>Decided on the best way to represent experimental rows in SBOL.</li>
-<li>Wrote code to loop through rows and encode them into SBOL files.</li>
-<li>Iteratively refined the representation.</li>
-</ol>
-<p>At first, I created <strong>one giant SBOL file</strong> encoding ~17,000 rows.<br>
-Later, we decided to <strong>encode each row as an individual SBOL file</strong> and group them in a SynBioHub collection.</p>
-<p>We also struggled with encoding the <strong>RNA expression level</strong> (our target variable).</p>
-<ul>
-<li>Initially tried using <strong>SBOL attachments</strong></li>
-<li>Eventually switched to the <strong>SBOL <code>Measurement</code> class</strong> → allowed us to pull data via <strong>SPARQL queries</strong></li>
-</ul>
+</h2>
+<p>We also struggled with encoding some important information in our representation, such as the RNA expression level, which is typically the target variable in synthetic biology ML. Initially we used SBOL attachments to encode the data, but eventually figured out how to use the SBOL <code>Measurement</code> class instead. This paid off in the end, as it allowed us to easily pull this information using SPARQL queries in our package.</p>
 <hr>
 <h2 id="results">
   Results
@@ -260,18 +224,9 @@ Later, we decided to <strong>encode each row as an individual SBOL file</strong>
     <span class="sr-only">Link to heading</span>
   </a>
 </h2>
-<p>By the end of this process:</p>
-<ul>
-<li>I generated SBOL files representing the research dataset.</li>
-<li>Encoding all rows was slow (took about a day).</li>
-<li>Next step: <strong>upload the data to SynBioHub</strong>.</li>
-</ul>
-<p>Luckily, SynBioHub has a well-documented API.</p>
-<ul>
-<li>Used it to upload the SBOL files into a <strong>collection</strong>.</li>
-<li>Verified we could <strong>pull data back</strong> via the API (simulating a package user workflow).</li>
-</ul>
-<p>This confirmed our SBOL → SynBioHub → ML pipeline works end-to-end.</p>
+<p>By the end of this process, I was able to generate the SBOL files of the research data encoded in our desired representation. One key bottleneck that we noticed was that encoding each of the data points took a fair amount of time, as I had to leave my computer running for about a day.</p>
+<p>The next step was to upload this data to SynBioHub. Luckily enough, there was a nicely documented API which used its endpoints to upload the data to SynBioHub automatically. Once the data was stored in a collection in SynBioHub, we also had to test how we could pull this data, which is also nicely implemented in the API.</p>
+<p>The reason we uploaded the data to SynBioHub was to re-enact the general workflow that a user of our package would follow. Presumably, their data would already be stored within an SBOL collection, and the user would use the SynBioHub API to pull those files into their Python environment. Once those files are on the user’s computer, the package would be ready to be used.</p>
 
       </div>
 
@@ -314,7 +269,7 @@ Later, we decided to <strong>encode each row as an individual SBOL file</strong>
 
   
   
-  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  <script src="/js/coder.js"></script>
   
 
   
